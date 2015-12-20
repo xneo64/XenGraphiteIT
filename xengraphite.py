@@ -22,10 +22,10 @@ def sendDataToCarbon(config, name, data):
   appends all data to a list and then sends to carbon/graphite
   """
   timeNow = getTime()
-  
+
   cs = str(config.get('GRAPHITE','CARBON_HOST'))
   cp = int(config.get('GRAPHITE','CARBON_PORT'))
-  sock = socket() 
+  sock = socket()
   try:
     sock.connect((cs, cp))
   except:
@@ -35,7 +35,7 @@ def sendDataToCarbon(config, name, data):
   message = "%s %d %d\n" % (name, data, timeNow)
   sock.sendall(message)
   print "%s %d %d" % (name, data, timeNow)
-  
+
 def getTime():
   """
   Just getting the time and returning it as 'timeNow'
@@ -88,9 +88,9 @@ def grabXenData(session, config):
   gp = config.get('GRAPHITE', 'CARBON_NAME')
 
   sendDataToCarbon(config, (gp + hostname + '.sr.' + sr_name_label + '.space.used'), bytesToGB(sr_phys_util))
-  sendDataToCarbon(config, (gp + hostname + '.sr.' + sr_name_label + '.space.total'), bytesToGB(sr_phys_size))  
+  sendDataToCarbon(config, (gp + hostname + '.sr.' + sr_name_label + '.space.total'), bytesToGB(sr_phys_size))
   sendDataToCarbon(config, (gp + hostname + '.vm.total'), running_vm_total)
-  
+
 def parseHostname(hostname):
   """
   strip out the http:// https:// and trailing /
@@ -108,7 +108,7 @@ if __name__ == '__main__':
   CONFIG_FILE = (os.getcwd() + "/.config")
   config = ConfigParser.ConfigParser()
   config.read([CONFIG_FILE])
-  
+
   delay = 60
 
   url = config.get('XENAPI', 'URL')
